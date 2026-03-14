@@ -1,5 +1,6 @@
 import 'package:bookia_store/core/app_bottom.dart';
 import 'package:bookia_store/featuers/auth/ui/login_screen.dart';
+import 'package:bookia_store/featuers/auth/ui/register_screen.dart';
 import 'package:bookia_store/gen/assets.gen.dart';
 import 'package:bookia_store/gen/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -42,9 +43,17 @@ class WelcomeScreen extends StatelessWidget {
               child: AppBottom(text: LocaleKeys.login),
             ),
             SizedBox(height: 20.h),
-            AppBottom(
-              text: LocaleKeys.Register,
-              BackgroundColor: Color(0xFFFFFFFF),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegisterScreen()),
+                );
+              },
+              child: AppBottom(
+                text: LocaleKeys.Register,
+                BackgroundColor: Color(0xFFFFFFFF),
+              ),
             ),
             SizedBox(height: 75.h),
           ],

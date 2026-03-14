@@ -13,9 +13,14 @@ class BookStore extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
+        theme: ThemeData(
+          fontFamily: "Dm",
+          scaffoldBackgroundColor: Colors.white,
+        ),
         home: WelcomeScreen(),
       ),
     );
