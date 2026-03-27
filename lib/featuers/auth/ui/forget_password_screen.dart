@@ -46,7 +46,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 keyboardType: TextInputType.emailAddress,
               ),
               SizedBox(height: 30.h),
-              AppBottom(text: "Send Code", onTap: () {}),
+              AppBottom(text: "Send code", onTap: () {}),
               SizedBox(height: 360.h),
               RowCoustom(
                 text: "Remember Password? ",

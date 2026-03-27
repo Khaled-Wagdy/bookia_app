@@ -1,7 +1,9 @@
 import 'package:bookia_store/core/app_bottom.dart';
 import 'package:bookia_store/core/custom_back_bottom.dart';
 import 'package:bookia_store/core/custom_text_form_field.dart';
+import 'package:bookia_store/core/routes/routes.dart';
 import 'package:bookia_store/core/row_coustom.dart';
+import 'package:bookia_store/featuers/auth/cubit/auth_cubit.dart';
 import 'package:bookia_store/featuers/auth/ui/forget_password_screen.dart';
 import 'package:bookia_store/featuers/auth/ui/register_screen.dart';
 import 'package:bookia_store/featuers/auth/ui/widgets/social_bottom_login.dart';
@@ -9,6 +11,7 @@ import 'package:bookia_store/gen/locale_keys.g.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -95,11 +98,41 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 20.h),
-              AppBottom(
-                text: LocaleKeys.login.tr(),
-                onTap: () async {
-                  await login();
+              BlocListener<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthLoadingState) {
+                    showDialog(
+                      context: context,
+                      builder: (context) =>
+                          Center(child: CircularProgressIndicator()),
+                    );
+                  } else if (state is AuthErrorState) {
+                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text("Error"),
+                        content: Text("Somehing Wrong Please try again"),
+                      ),
+                    );
+                  } else if (state is AuthSuccessState) {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      Routes.BottomNavBarScreen,
+                      (route) => false,
+                    );
+                  }
                 },
+
+                child: AppBottom(
+                  text: LocaleKeys.login.tr(),
+                  onTap: () {
+                    context.read<AuthCubit>().login(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+                  },
+                ),
               ),
               SizedBox(height: 35.h),
               Row(
@@ -148,17 +181,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  login() async {
-    Dio dio = Dio();
-    final response = await dio.post(
-      'https://codingarabic.online/api/login',
-      data: {
-        'email': emailController.text,
-        'password': passwordController.text,
-      },
-    );
-    debugPrint(response.data.toString());
   }
 }
