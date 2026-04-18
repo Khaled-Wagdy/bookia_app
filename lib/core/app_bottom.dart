@@ -9,12 +9,14 @@ class AppBottom extends StatelessWidget {
     this.BackgroundColor,
     this.onTap,
   });
+
   final String text;
   final Color? BackgroundColor;
   final void Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: Container(
         width: double.infinity,
@@ -23,7 +25,6 @@ class AppBottom extends StatelessWidget {
           border: BackgroundColor == null
               ? null
               : Border.all(color: Colors.black, width: 1.5),
-
           color: BackgroundColor ?? AppColors.primary,
           borderRadius: BorderRadius.circular(8.r),
         ),

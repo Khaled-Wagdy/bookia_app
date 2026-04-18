@@ -5,10 +5,8 @@ import 'package:bookia_store/core/routes/routes.dart';
 import 'package:bookia_store/core/row_coustom.dart';
 import 'package:bookia_store/featuers/auth/cubit/auth_cubit.dart';
 import 'package:bookia_store/featuers/auth/ui/forget_password_screen.dart';
-import 'package:bookia_store/featuers/auth/ui/register_screen.dart';
 import 'package:bookia_store/featuers/auth/ui/widgets/social_bottom_login.dart';
 import 'package:bookia_store/gen/locale_keys.g.dart';
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +23,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isObscure = true;
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+
+  @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
@@ -47,6 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20.h),
+
               Text(
                 LocaleKeys.WelcomeBack.tr(),
                 style: TextStyle(
@@ -55,13 +56,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: const Color(0xFF1E232C),
                 ),
               ),
+
               SizedBox(height: 40.h),
+
               CustomTextFormField(
                 controller: emailController,
                 hintText: "Enter your email",
                 keyboardType: TextInputType.emailAddress,
               ),
+
               SizedBox(height: 20.h),
+
               CustomTextFormField(
                 controller: passwordController,
                 hintText: "Enter your password",
@@ -76,43 +81,57 @@ class _LoginScreenState extends State<LoginScreen> {
                     isObscure
                         ? Icons.visibility_outlined
                         : Icons.visibility_off_outlined,
-                    color: const Color(0xFF6A707C),
+                    color: Color(0xFF6A707C),
                   ),
                 ),
                 keyboardType: TextInputType.visiblePassword,
                 isPassowrd: true,
               ),
+
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (c) => ForgetPasswordScreen()),
+                      MaterialPageRoute(
+                        builder: (c) => const ForgetPasswordScreen(),
+                      ),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     "Forgot Password?",
                     style: TextStyle(color: Color(0xFF6A707C)),
                   ),
                 ),
               ),
+
               SizedBox(height: 20.h),
+
               BlocListener<AuthCubit, AuthState>(
                 listener: (context, state) {
                   if (state is AuthLoadingState) {
                     showDialog(
                       context: context,
+                      barrierDismissible: false,
                       builder: (context) =>
                           Center(child: CircularProgressIndicator()),
                     );
                   } else if (state is AuthErrorState) {
-                    Navigator.pop(context);
+                    if (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    }
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: Text("Error"),
-                        content: Text("Somehing Wrong Please try again"),
+                        title: const Text("Error"),
+                        content: Text("Something went wrong, please try again"),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("OK"),
+                          ),
+                        ],
                       ),
                     );
                   } else if (state is AuthSuccessState) {
@@ -123,7 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     );
                   }
                 },
-
                 child: AppBottom(
                   text: LocaleKeys.login.tr(),
                   onTap: () {
@@ -134,9 +152,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
               ),
+
               SizedBox(height: 35.h),
+
               Row(
-                children: [
+                children: const [
                   Expanded(
                     child: Divider(thickness: 1, color: Color(0xFFE8ECF4)),
                   ),
@@ -152,29 +172,33 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
+
               SizedBox(height: 25.h),
+
               SocialLoginButton(
                 onTap: () {},
                 label: "Sign in with Google",
                 imagePath: "assets/image/google_ic.png",
               ),
+
               SizedBox(height: 15.h),
+
               SocialLoginButton(
                 onTap: () {},
                 label: "Sign in with Apple",
                 imagePath: "assets/image/cib_apple.png",
               ),
+
               SizedBox(height: 100.h),
+
               RowCoustom(
                 text: "Don't have an account? ",
                 actionText: "Register Now",
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (c) => const RegisterScreen()),
-                  );
+                  Navigator.pushNamed(context, Routes.registerScreen);
                 },
               ),
+
               SizedBox(height: 20.h),
             ],
           ),

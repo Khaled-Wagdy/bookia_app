@@ -11,8 +11,44 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
+
+  /// File path: assets/icons/Bookmark_icon.png
+  AssetGenImage get bookmarkIcon =>
+      const AssetGenImage('assets/icons/Bookmark_icon.png');
+
+  /// File path: assets/icons/Category_icon.png
+  AssetGenImage get categoryIcon =>
+      const AssetGenImage('assets/icons/Category_icon.png');
+
+  /// File path: assets/icons/Home_icon.png
+  AssetGenImage get homeIcon =>
+      const AssetGenImage('assets/icons/Home_icon.png');
+
+  /// File path: assets/icons/Profile_icon.png
+  AssetGenImage get profileIcon =>
+      const AssetGenImage('assets/icons/Profile_icon.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+    bookmarkIcon,
+    categoryIcon,
+    homeIcon,
+    profileIcon,
+  ];
+}
+
 class $AssetsImageGen {
   const $AssetsImageGen();
+
+  /// File path: assets/image/cib_apple.png
+  AssetGenImage get cibApple =>
+      const AssetGenImage('assets/image/cib_apple.png');
+
+  /// File path: assets/image/google_ic.png
+  AssetGenImage get googleIc =>
+      const AssetGenImage('assets/image/google_ic.png');
 
   /// File path: assets/image/splash_android12.png
   AssetGenImage get splashAndroid12 =>
@@ -28,6 +64,8 @@ class $AssetsImageGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+    cibApple,
+    googleIc,
     splashAndroid12,
     splashScreen,
     welcomeScreen,
@@ -50,6 +88,7 @@ class $AssetsTranslationsGen {
 class Assets {
   const Assets._();
 
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImageGen image = $AssetsImageGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 }
